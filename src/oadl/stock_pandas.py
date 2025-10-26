@@ -48,8 +48,11 @@ class StockPandas(Stock):
             if exists:
                 self.df.loc[(self.df['Rack'] == rack) & (self.df['Face'] == face) & (self.df['Inventory ID'] == item_id), 'Cantidad'] = quantity
             else:
-                self.df = self.df.append(
-                    {'Rack': rack, 'Face': face, 'Inventory ID': item_id, 'Cantidad': quantity},
+                self.df = pd.concat(
+                    [
+                        self.df,
+                        pd.DataFrame.from_dict({'Rack': [rack], 'Face': [face], 'Inventory ID': [item_id], 'Cantidad': [quantity]})
+                    ],
                     ignore_index=True
                 )
 
